@@ -23,9 +23,12 @@ export const AppProvider = ({ children }) => {
   const clearCart = () => {
     dispatch({ type: CLEAR_CART });
   };
+  const removeCart = (id) => {
+    dispatch({ type: REMOVE, payload: { id } });
+  };
 
   return (
-    <AppContex.Provider value={{ ...state, clearCart }}>
+    <AppContex.Provider value={{ ...state, clearCart, removeCart }}>
       {children}
     </AppContex.Provider>
   );
