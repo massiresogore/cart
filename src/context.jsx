@@ -1,10 +1,11 @@
 import { createContext, useContext, useReducer } from "react";
 import { reducer } from "./reducer";
+import cartItems from "./data";
 import {
   INCREASE,
   DECREASE,
   REMOVE,
-  CLEAR_ITEMS,
+  CLEAR_CART,
   LOADING,
   DISPLAY_ITEMS,
 } from "./action";
@@ -13,13 +14,20 @@ const AppContex = createContext();
 
 const initialState = {
   loading: false,
-  cart: [],
+  cart: new Map(cartItems.map((item) => [item.id, item])),
 };
 
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const clearCart = () => {
+    dispatch({ type: CLEAR_CART });
+  };
+
   return (
-    <AppContex.Provider value={{ ...state }}>{children}</AppContex.Provider>
+    <AppContex.Provider value={{ ...state, clearCart }}>
+      {children}
+    </AppContex.Provider>
   );
 };
 
